@@ -1,5 +1,5 @@
 """
-Deterministic U-Net next-day forecaster over Yunnan (15-35N, 90-110E).
+Deterministic U-Net next-day forecaster over the study region (15-35N, 90-110E).
 
 Forecast model F_xi: R^{4 x H x W} -> R^{4 x H x W}
     A multi-scale encoder-decoder U-Net with residual blocks (group
@@ -13,7 +13,7 @@ Train: 1981-2015.  Validation: 2016-2020.
 Loss: L = E_t || F_xi(x_t) - x_{t+dt} ||^2  (mean squared error)
 
 Run:
-    python yunnan_unet_forecast.py 2>&1 | tee yunnan_unet_forecast.log
+    python unet_forecast_github.py 2>&1 | tee unet_forecast_github.log
 """
 
 import logging
@@ -54,9 +54,9 @@ EPOCHS = 50
 PRINT_EVERY = 50
 SAVE_TOP_K = 5
 
-MEAN_STD_FILE = "/data/yunnan_cmfd_mean_std.pkl"
+MEAN_STD_FILE = "/data/cmfd_mean_std.pkl"
 MODEL_DIR = "/data/model"
-LOG_FILE = "/data/yunnan_unet_forecast.log"
+LOG_FILE = "/data/unet_forecast_github.log"
 MODEL_PREFIX = "forecast_unet"
 
 
@@ -314,7 +314,7 @@ def evaluate(model, loader, criterion, device):
 def main():
     t_start = time.time()
     logger.info("=" * 60)
-    logger.info("Yunnan U-Net next-day forecaster")
+    logger.info("U-Net next-day forecaster over the study region")
     logger.info(f"Train years: {TRAIN_YEARS}  Val years: {VAL_YEARS}")
     logger.info(f"Field: {FIELD_SHAPE}  Base dim: {BASE_DIM}  "
                 f"Mults: {CHANNEL_MULTS}")

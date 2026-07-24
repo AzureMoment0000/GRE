@@ -1,12 +1,12 @@
 """
-Diffusion-based CMFD field generation over Yunnan (15-35N, 90-110E).
+Diffusion-based CMFD field generation over the study region (15-35N, 90-110E).
 
 V-prediction diffusion on four-variable daily fields (prec, pres, wind, temp)
 with static conditioning (solar altitude, elevation). Trained on CMFD v2.0
 daily fields with v-prediction parameterization (v = alpha*eps - sigma*x).
 
 Run:
-    python yunnan_diffusion_github.py 2>&1 | tee yunnan_diffusion_github.log
+    python diffusion_github.py 2>&1 | tee diffusion_github.log
 """
 
 import gc
@@ -226,9 +226,9 @@ DATA_DIR = "/data/CMFD/1dy010deg"
 VARS = ["prec", "pres", "wind", "temp"]
 YEARS = range(1981, 2021)
 
-SOLAR_FILE = "/data/yunnan_solar_altitude.nc"
-ELEV_FILE = "/data/yunnan_elevation.nc"
-MEAN_STD_FILE = "/data/yunnan_cmfd_mean_std.pkl"
+SOLAR_FILE = "/data/solar_altitude.nc"
+ELEV_FILE = "/data/elevation.nc"
+MEAN_STD_FILE = "/data/cmfd_mean_std.pkl"
 
 LAT_MIN, LAT_MAX = 15.0, 35.0
 LON_MIN, LON_MAX = 90.0, 110.0
@@ -247,9 +247,9 @@ LOSS_SKIP_THRESHOLD = 3.0
 GRAD_CLIP_NORM = 1.0
 
 MODEL_DIR = Path("/data/model")
-MODEL_PREFIX = "diffusion_model_yunnan"
+MODEL_PREFIX = "diffusion_model"
 
-LOG_FILE = "/data/yunnan_diffusion_github.log"
+LOG_FILE = "/data/diffusion_github.log"
 GRAD_ACCUM_STEPS = 1
 
 
@@ -399,7 +399,7 @@ def save_checkpoint(model, optimizer, scheduler, global_step, loss_running,
 def main():
     t_start = time.time()
     logger.info("=" * 60)
-    logger.info("Yunnan diffusion model training")
+    logger.info("Diffusion model training over the study region")
     logger.info(f"Years: {YEARS}  Vars: {VARS}")
     logger.info(f"Field: {FIELD_SHAPE}  Base dim: {BASE_DIM}")
     logger.info(f"Batch: {BATCH_SIZE}  LR: {LEARNING_RATE}  Epochs: {EPOCHS}")
